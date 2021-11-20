@@ -18,10 +18,10 @@
         <v-flex xs7>
           <v-card style="margin-top:10px" v-for="snippet in snippetList" :key="snippet.id">
             <v-card-title primary-title>
-              <h3 class="headline">Snippet Title</h3>
+              <h3 class="headline"> {{ snippet.title }} </h3>
             </v-card-title>
             <div style="margin: 10px 20px;">
-              <textarea style='width:100%; height:300px; background-color:#efefef; padding:3px'> hoge </textarea>
+              <textarea v-model="snippet.contents" style='width:100%; height:300px; background-color:#efefef; padding:3px'></textarea>
             </div>
             <v-card-actions>
               <v-btn flat color="red">Update</v-btn>
@@ -35,10 +35,26 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   data() {
     return {
-      snippetList: ['','']
+      snippetList: ['',''],
+      allData: ['',''],
+    }
+  },
+  mounted () {
+    this.listSnippet();
+  },
+  methods: {
+    listSnippet() {
+      axios.get('http://localhost:3000/snippets.json')
+        .then(response => {
+          this.allData = response.data
+          this.snippetList = this.allData
+        }
+      );
     }
   }
 }
