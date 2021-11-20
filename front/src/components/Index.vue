@@ -14,7 +14,7 @@
           <div style="margin:10px">
             <h2>Snippets Shortcut</h2>
             <ul>
-              <li>Snippet Title</li>
+              <li v-for="snippet in snippetList" :key="snippet.id"><span id='name' @click="goElem(snippet.id)">[{{ snippet.language }}] {{ snippet.title }}</span></li>
             </ul>
           </div>
         </v-flex>
@@ -23,6 +23,7 @@
         <v-flex xs7>
           <v-card style="margin-top:10px" v-for="snippet in snippetList" :key="snippet.id">
             <v-card-title primary-title>
+              <a :id='snippet.id'></a>
               <h3 class="headline"> {{ snippet.title }} </h3>
             </v-card-title>
             <div style="margin: 10px 20px;">
@@ -193,7 +194,11 @@ export default {
           this.listSnippet()
         )
       this.dialogDeleteFlag = !this.dialogDeleteFlag
-    }
+    },
+    goElem(id) {
+      // 見出しをクリックすると記事まで移動する
+      document.getElementById(id).scrollIntoView(true)
+    },
   }
 }
 </script>
