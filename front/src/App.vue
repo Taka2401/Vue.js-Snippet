@@ -1,16 +1,18 @@
 <template>
   <div id="app">
-    <Top />
+    <Index />
   </div>
 </template>
 
 <script>
-import Top from './components/Top.vue'
+// import Top from './components/Top.vue'
+import Index from './components/Index.vue'
 
 export default {
   name: 'App',
   components: {
-    Top
+    // Top,
+    Index
   }
 }
 </script>
