@@ -23,7 +23,9 @@
         </v-flex>
 
         <!-- 画面右 -->
-        <v-flex xs7>
+        <v-flex xs7 style='margin:10px'>
+          <h2>Search Snippet</h2>
+          <v-text-field v-model="searchWord" @keyup="abstruct" label="Input Keyword" style='margin-top:4px'></v-text-field>
           <v-card style="margin-top:10px" v-for="snippet in snippetList" :key="snippet.id">
             <v-card-title primary-title>
               <a :id='snippet.id'></a>
@@ -147,7 +149,8 @@ export default {
       putTitle: '',
       putLanguage: '',
       putContents: '',
-      dialogDeleteFlag: false
+      dialogDeleteFlag: false,
+      searchWord: ''
     }
   },
   mounted () {
@@ -228,13 +231,17 @@ export default {
       if (this.language == 'ALL') {
         this.snippetList = []
         for (let i = 0; i < this.allData.length; i++) {
-          this.snippetList.push(this.allData[i])
+          if ((this.allData[i].contents.indexOf(this.searchWord) !== -1) || (this.allData[i].title.indexOf(this.searchWord) !== -1) || (this.allData[i].language.indexOf(this.searchWord) !== -1)) {
+            this.snippetList.push(this.allData[i])
+          }
         }
       } else if (this.language != '') {
         this.snippetList = []
         for (let i = 0; i < this.allData.length; i++) {
           if (this.allData[i].language == this.language) {
-            this.snippetList.push(this.allData[i])
+            if ((this.allData[i].contents.indexOf(this.searchWord) !== -1) || (this.allData[i].title.indexOf(this.searchWord) !== -1) || (this.allData[i].language.indexOf(this.searchWord) !== -1)) {
+              this.snippetList.push(this.allData[i])
+            }
           }
         }
       }
