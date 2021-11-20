@@ -91,7 +91,7 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
-  
+
   # CSRFを無効化
   config.action_controller.allow_forgery_protection = false
 end
