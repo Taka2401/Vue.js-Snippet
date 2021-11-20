@@ -30,9 +30,9 @@ export default {
     },
     changeMsg() {
       this.message = 'Changed Message'
-      axios.get('http://localhost:3000/snippets.json') // 説明 2.16
-      .then(response => ( // 説明 2.17
-          this.message2 = response.data[2]['title'] // 説明 2.18
+      axios.get('http://localhost:3000/snippets.json')
+      .then(response => (
+          this.message2 = response.data[2]['title']
         )
       )
     },
