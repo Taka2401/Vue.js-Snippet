@@ -3,10 +3,16 @@
     <p>{{ message }}</p>
     <p>{{ message2 }}</p>
     <button v-on:click="changeMsg">Change</button>
+    <ul>
+      <li v-for="data in list" :key="data.id">{{ data.title }}</li>
+    </ul>
+    <button v-on:click="listSnippet">listSnippet</button>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   data() {
     return {
@@ -24,8 +30,18 @@ export default {
     },
     changeMsg() {
       this.message = 'Changed Message'
-      // 連想配列での代入
-      this.message2 = this.list[0]['title']
+      axios.get('/snippets.json')
+      .then(response => (
+          this.message2 = response.data[0]['title']
+        )
+      )
+    },
+    listSnippet() {
+      axios.get('/snippets.json')
+        .then(response => (
+          this.list = response.data
+        )
+      )
     }
   }
 }
@@ -34,5 +50,8 @@ export default {
 <style>
   button {
     margin-top: 50px;
+  }
+  li {
+    margin: 0 auto;
   }
 </style>
