@@ -7,6 +7,11 @@
       <li v-for="data in list" :key="data.id">{{ data.title }}</li>
     </ul>
     <button v-on:click="listSnippet">listSnippet</button>
+    <div class="post-form">
+      <input v-model="title" placeholder="title">
+      <input v-model="language" placeholder="language">
+      <input v-model="contents" placeholder="contents">
+    </div>
     <button v-on:click="postSnippet">postSnippet</button>
   </div>
 </template>
@@ -19,7 +24,10 @@ export default {
     return {
       message: 'Hello Vue!',
       message2: 'Hoge',
-      list: [{title:'ruby'}, {title:'title2'}]
+      list: [{title:'ruby'}, {title:'title2'}],
+      title: '',
+      language: '',
+      contents: ''
     }
   },
   mounted () {
@@ -45,7 +53,7 @@ export default {
       )
     },
     postSnippet() {
-      axios.post('http://localhost:3000/snippets', {title: 'new title', language: 'Ruby', contents: 'contents'})
+      axios.post('http://localhost:3000/snippets', {title: this.title, language: this.language, contents: this.contents})
         .then(
           this.listSnippet()
         )
@@ -61,5 +69,9 @@ export default {
 
   ul {
     list-style: none;
+  }
+
+  .post-form {
+    margin: 20px;
   }
 </style>
