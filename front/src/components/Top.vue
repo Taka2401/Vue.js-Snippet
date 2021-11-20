@@ -18,7 +18,7 @@ export default {
     return {
       message: 'Hello Vue!',
       message2: 'Hoge',
-      list: [{title:'title1'}, {title:'title2'}]
+      list: [{title:'ruby'}, {title:'title2'}]
     }
   },
   mounted () {
@@ -30,14 +30,14 @@ export default {
     },
     changeMsg() {
       this.message = 'Changed Message'
-      axios.get('/snippets.json')
-      .then(response => (
-          this.message2 = response.data[0]['title']
+      axios.get('http://localhost:3000/snippets.json') // 説明 2.16
+      .then(response => ( // 説明 2.17
+          this.message2 = response.data[2]['title'] // 説明 2.18
         )
       )
     },
     listSnippet() {
-      axios.get('/snippets.json')
+      axios.get('http://localhost:3000/snippets.json')
         .then(response => (
           this.list = response.data
         )
@@ -49,9 +49,10 @@ export default {
 
 <style>
   button {
-    margin-top: 50px;
+    margin-top: 20px;
   }
-  li {
-    margin: 0 auto;
+
+  ul {
+    list-style: none;
   }
 </style>
