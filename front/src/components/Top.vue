@@ -7,6 +7,7 @@
       <li v-for="data in list" :key="data.id">{{ data.title }}</li>
     </ul>
     <button v-on:click="listSnippet">listSnippet</button>
+    <button v-on:click="postSnippet">postSnippet</button>
   </div>
 </template>
 
@@ -31,8 +32,8 @@ export default {
     changeMsg() {
       this.message = 'Changed Message'
       axios.get('http://localhost:3000/snippets.json')
-      .then(response => (
-          this.message2 = response.data[2]['title']
+        .then(response => (
+          this.message2 = response.data[0]['title']
         )
       )
     },
@@ -42,6 +43,12 @@ export default {
           this.list = response.data
         )
       )
+    },
+    postSnippet() {
+      axios.post('http://localhost:3000/snippets', {title: 'new title', language: 'Ruby', contents: 'contents'})
+        .then(
+          this.listSnippet()
+        )
     }
   }
 }
