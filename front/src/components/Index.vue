@@ -16,14 +16,13 @@
           </div>
         </v-flex>
         <v-flex xs7>
-          <v-card style="margin-top:10px">
+          <v-card style="margin-top:10px" v-for="snippet in snippetList" :key="snippet.id">
             <v-card-title primary-title>
               <h3 class="headline">Snippet Title</h3>
             </v-card-title>
             <div style="margin: 10px 20px;">
               <textarea style='width:100%; height:300px; background-color:#efefef; padding:3px'> hoge </textarea>
             </div>
-
             <v-card-actions>
               <v-btn flat color="red">Update</v-btn>
               <v-btn flat color="gray">Delete</v-btn>
@@ -34,3 +33,13 @@
     </v-container>
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      snippetList: ['','']
+    }
+  }
+}
+</script>
