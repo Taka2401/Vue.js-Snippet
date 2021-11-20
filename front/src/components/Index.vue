@@ -14,6 +14,7 @@
           <div style="margin:10px">
             <h2>Snippets Shortcut</h2>
             <ul>
+              <!-- コンテンツに一意のキーを持たせgoElm()で移動させる -->
               <li v-for="snippet in snippetList" :key="snippet.id"><span id='name' @click="goElem(snippet.id)">[{{ snippet.language }}] {{ snippet.title }}</span></li>
             </ul>
           </div>
@@ -33,6 +34,8 @@
               <!-- 引数を渡してどのsnippetを更新するか特定する -->
               <v-btn text color="red" @click="togglePutModal(snippet.id)">Update</v-btn>
               <v-btn text color="gray" @click="toggleDeleteModal(snippet.id)">Delete</v-btn>
+              <v-spacer></v-spacer>
+              <v-btn text color="red" @click="goTop">Go Top</v-btn>
             </v-card-actions>
           </v-card>
         </v-flex>
@@ -199,6 +202,9 @@ export default {
       // 見出しをクリックすると記事まで移動する
       document.getElementById(id).scrollIntoView(true)
     },
+    goTop() {
+      document.getElementById("app").scrollIntoView(true)
+    }
   }
 }
 </script>
