@@ -30,8 +30,8 @@
             </div>
             <v-card-actions>
               <!-- 引数を渡してどのsnippetを更新するか特定する -->
-              <v-btn text color="red" v-on:click="togglePutModal(snippet.id)">Update</v-btn>
-              <v-btn text color="gray">Delete</v-btn>
+              <v-btn text color="red" @click="togglePutModal(snippet.id)">Update</v-btn>
+              <v-btn text color="gray" @click="toggleDeleteModal(snippet.id)">Delete</v-btn>
             </v-card-actions>
           </v-card>
         </v-flex>
@@ -55,7 +55,7 @@
           </v-card-text>
           <v-divider></v-divider>
           <v-card-actions>
-            <v-btn color="#grey lighten-4" text v-on:click="togglePostModal">
+            <v-btn color="#grey lighten-4" text @click="togglePostModal">
               Cancel
             </v-btn>
             <v-spacer></v-spacer>
@@ -84,16 +84,39 @@
             </v-card-text>
             <v-divider></v-divider>
             <v-card-actions>
-              <v-btn color="#grey lighten-4" text v-on:click="togglePutModal">
+              <v-btn color="#grey lighten-4" text @click="togglePutModal">
                 Cancel
               </v-btn>
               <v-spacer></v-spacer>
-              <v-btn color="red" text v-on:click="putSnippet">
+              <v-btn color="red" text @click="putSnippet">
                 Update Snippet
               </v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
+
+        <!-- delete -->
+        <v-dialog v-model="dialogDeleteFlag" width="400">
+          <v-card>
+            <v-card-title class="headline red lighten-3 white--text" primary-title>
+              Confirm
+            </v-card-title>
+            <v-spacer></v-spacer>
+            <v-card-text>
+              <p>本当に削除してもよろしいですか？</p>
+            </v-card-text>
+
+            <v-divider></v-divider>
+
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="red" text @click="deleteSnippet()">
+                Delete
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+
     </v-container>
   </div>
 </template>
@@ -114,6 +137,7 @@ export default {
       putTitle: '',
       putLanguage: '',
       putContents: '',
+      dialogDeleteFlag: false
     }
   },
   mounted () {
@@ -129,6 +153,16 @@ export default {
       );
     },
     togglePostModal() {
+      this.dialogPostFlag = !this.dialogPostFlag
+    },
+    postSnippet() {
+      axios.post('http://localhost:3000/snippets', {title: this.postTitle, language: this.postLanguage, contents: this.postContents})
+        .then(
+          this.listSnippet(),
+          this.postTitle = '',
+          this.postLanguage = '',
+          this.postContents = ''
+        )
       this.dialogPostFlag = !this.dialogPostFlag
     },
     togglePutModal(id) {
@@ -149,15 +183,16 @@ export default {
         )
       this.dialogPutFlag = !this.dialogPutFlag
     },
-    postSnippet() {
-      axios.post('http://localhost:3000/snippets', {title: this.postTitle, language: this.postLanguage, contents: this.postContents})
+    toggleDeleteModal(id) {
+      this.id = id
+      this.dialogDeleteFlag = !this.dialogDeleteFlag
+    },
+    deleteSnippet() {
+      axios.delete('http://localhost:3000/snippets/' + this.id + '.json')
         .then(
-          this.listSnippet(),
-          this.postTitle = '',
-          this.postLanguage = '',
-          this.postContents = ''
+          this.listSnippet()
         )
-      this.dialogPostFlag = !this.dialogPostFlag
+      this.dialogDeleteFlag = !this.dialogDeleteFlag
     }
   }
 }
