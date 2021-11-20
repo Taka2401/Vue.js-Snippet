@@ -12,6 +12,8 @@
         <!-- 画面左 -->
         <v-flex xs5>
           <div style="margin:10px">
+            <h2>Select Language</h2>
+            <v-select v-model='language' :items="languages" label="Language" @change="abstruct"></v-select>
             <h2>Snippets Shortcut</h2>
             <ul>
               <!-- コンテンツに一意のキーを持たせgoElm()で移動させる -->
@@ -50,6 +52,7 @@
           <v-text-field v-model="postTitle" label="Snippet Title" required style='margin:20px; margin-top:30px'></v-text-field>
           <v-flex d-flex>
             <v-text-field v-model="postLanguage" label="Language" required style='margin:20px; margin-bottom:0px; margin-left:20px'></v-text-field>
+            <v-select v-model='postLanguage' :items="languagesForEdit" label="Select from history" style='margin:20px; margin-bottom:0px;margin-left: 0px'></v-select>
           </v-flex>
           <v-card-text>
             <p>Snippet</p>
@@ -133,6 +136,9 @@ export default {
     return {
       snippetList: [],
       allData: [],
+      languages: ['All'],
+      languagesForEdit: [],
+      language: 'ALL',
       dialogPostFlag: false,
       postTitle: '',
       postLanguage: '',
@@ -153,8 +159,21 @@ export default {
         .then(response => {
           this.allData = response.data
           this.snippetList = this.allData
+          this.listLanguages()
+          this.abstruct()
         }
-      );
+      )
+    },
+    listLanguages() {
+      this.languages = []
+      this.languagesForEdit = []
+      this.languages.push('ALL')
+      for (let i = 0; i < this.allData.length; i++) {
+        if (this.languages.indexOf(this.allData[i].language) == -1) {
+          this.languages.push(this.allData[i].language)
+          this.languagesForEdit.push(this.allData[i].language)
+        }
+      }
     },
     togglePostModal() {
       this.dialogPostFlag = !this.dialogPostFlag
@@ -204,6 +223,21 @@ export default {
     },
     goTop() {
       document.getElementById("app").scrollIntoView(true)
+    },
+    abstruct() {
+      if (this.language == 'ALL') {
+        this.snippetList = []
+        for (let i = 0; i < this.allData.length; i++) {
+          this.snippetList.push(this.allData[i])
+        }
+      } else if (this.language != '') {
+        this.snippetList = []
+        for (let i = 0; i < this.allData.length; i++) {
+          if (this.allData[i].language == this.language) {
+            this.snippetList.push(this.allData[i])
+          }
+        }
+      }
     }
   }
 }
