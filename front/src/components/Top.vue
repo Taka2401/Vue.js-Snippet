@@ -2,17 +2,17 @@
   <div>
     <p>{{ message }}</p>
     <p>{{ message2 }}</p>
-    <button v-on:click="changeMsg">Change</button>
+    <button @click="changeMsg">Change</button>
     <ul>
       <li v-for="data in list" :key="data.id">{{ data.title }}</li>
     </ul>
-    <button v-on:click="listSnippet">listSnippet</button>
+    <button @click="listSnippet">listSnippet</button>
     <div class="post-form">
       <input v-model="title" placeholder="title">
       <input v-model="language" placeholder="language">
       <input v-model="contents" placeholder="contents">
     </div>
-    <button v-on:click="postSnippet">postSnippet</button>
+    <button @click="postSnippet">postSnippet</button>
   </div>
 </template>
 

@@ -5,7 +5,7 @@
       <v-spacer></v-spacer>
 
       <!-- 投稿画面表示させる -->
-      <v-btn text v-on:click="togglePostModal()">New Snippet</v-btn>
+      <v-btn text @click="togglePostModal()">New Snippet</v-btn>
     </v-toolbar>
     <v-container style="height: 1000px; max-width: 2400px;">
       <v-layout>
@@ -70,7 +70,7 @@
               Cancel
             </v-btn>
             <v-spacer></v-spacer>
-            <v-btn color="red" text v-on:click="postSnippet">
+            <v-btn color="red" text @click="postSnippet">
               Add Snippet
             </v-btn>
           </v-card-actions>
