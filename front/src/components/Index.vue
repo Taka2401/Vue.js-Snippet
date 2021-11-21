@@ -27,9 +27,11 @@
           <h2>Search Snippet</h2>
           <v-text-field v-model="searchWord" @keyup="abstruct" label="Input Keyword" style='margin-top:4px'></v-text-field>
           <v-card style="margin-top:10px" v-for="snippet in snippetList" :key="snippet.id">
-            <v-card-title primary-title>
               <a :id='snippet.id'></a>
-              <h3 class="headline"> {{ snippet.title }} </h3>
+              <v-card-title primary-title>
+              <div style="background-color:#FFCDD2">
+                <h3 class="headline">[{{ snippet.language }}] {{ snippet.title }}</h3>
+              </div>
             </v-card-title>
             <div style="margin: 10px 20px;">
               <textarea v-model="snippet.contents" style='width:100%; height:300px; background-color:#efefef; padding:3px'></textarea>
@@ -172,7 +174,9 @@ export default {
       this.languagesForEdit = []
       this.languages.push('ALL')
       for (let i = 0; i < this.allData.length; i++) {
+        // indexOfで引数に与えられた内容と同じ内容を持つ配列要素の内、最初の添字を返す。
         if (this.languages.indexOf(this.allData[i].language) == -1) {
+          // 一致したら配列に代入していく
           this.languages.push(this.allData[i].language)
           this.languagesForEdit.push(this.allData[i].language)
         }
@@ -228,10 +232,13 @@ export default {
       document.getElementById("app").scrollIntoView(true)
     },
     abstruct() {
+      // セレクトボックスがALLの時
       if (this.language == 'ALL') {
         this.snippetList = []
         for (let i = 0; i < this.allData.length; i++) {
           if ((this.allData[i].contents.indexOf(this.searchWord) !== -1) || (this.allData[i].title.indexOf(this.searchWord) !== -1) || (this.allData[i].language.indexOf(this.searchWord) !== -1)) {
+
+            // 各要素を1つづつ空配列だった snippetList に追加
             this.snippetList.push(this.allData[i])
           }
         }
@@ -240,6 +247,8 @@ export default {
         for (let i = 0; i < this.allData.length; i++) {
           if (this.allData[i].language == this.language) {
             if ((this.allData[i].contents.indexOf(this.searchWord) !== -1) || (this.allData[i].title.indexOf(this.searchWord) !== -1) || (this.allData[i].language.indexOf(this.searchWord) !== -1)) {
+
+              // 選択した言語と一致したものを追加する
               this.snippetList.push(this.allData[i])
             }
           }
